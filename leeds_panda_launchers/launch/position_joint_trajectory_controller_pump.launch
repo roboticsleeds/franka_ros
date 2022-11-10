@@ -1,0 +1,12 @@
+<launch>
+	<include file="$(find franka_control)/launch/franka_control.launch">
+		<arg name="robot_ip" value="panda-control"/>
+		<arg name="load_gripper" value="false"/>
+		<arg name="load_pump" value="true"/>
+	</include>
+
+	<node name="controller_spawner" pkg="controller_manager" type="spawner" args="position_joint_trajectory_controller" respawn="false" output="screen"/>
+	<param name="franka_ip" value="192.168.130.1"/>
+
+	<node name="pump_controller" pkg="cobot_pump_ros" type="cobot_pump_node" respawn="false" output="screen"/>
+</launch>
