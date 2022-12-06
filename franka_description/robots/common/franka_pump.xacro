@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hand">
+  <!-- safety_distance: Minimum safety distance in [m] by which the collision volumes are expanded and which is enforced during robot motions -->
+  <xacro:macro name="franka_pump" params="connected_to:='' arm_id:='panda' rpy:='0 0 0' xyz:='0 0 0' tcp_xyz:='0 0 0.1034' tcp_rpy:='0 0 0' safety_distance:=0 gazebo:=false description_pkg:=franka_description">
+    <xacro:unless value="${connected_to == ''}">
+      <joint name="${arm_id}_hand_joint" type="fixed">
+        <parent link="${connected_to}" />
+        <child link="${arm_id}_hand" />
+        <origin xyz="${xyz}" rpy="${rpy}" />
+      </joint>
+    </xacro:unless>
+
+    <!-- <xacro:link_with_sc name="pump_simplified" gazebo="${gazebo}">
+      <self_collision_geometries>
+        <xacro:collision_capsule xyz="0 0 0.04" direction="y" radius="${0.04+safety_distance}" length="0.1" />
+        <xacro:collision_capsule xyz="0 0 0.10" direction="y" radius="${0.02+safety_distance}" length="0.1" />
+      </self_collision_geometries>
+    </xacro:link_with_sc> -->
+    <link name="${arm_id}_hand" >
+      <visual>
+        <origin xyz="0 0 0" rpy="0 ${pi} 0"/>
+        <geometry>
+          <mesh filename="package://${description_pkg}/meshes/visual/pump_simplified.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.05" rpy="0 0 ${pi/2}"/>
+        <geometry>
+          <cylinder radius="${0.05+safety_distance}" length="0.12" />
+        </geometry>
+      </collision>
+    </link>
+    <!-- <joint name="${arm_id}_hand" type="fixed">
+      <parent link="${arm_id}_link8" />
+      <child link="${arm_id}_hand" />
+      <origin xyz="0 0 0.0584" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+    </joint> -->
+
+    <!-- Define the hand_tcp frame -->
+    <link name="${arm_id}_hand_tcp" />
+    <joint name="${arm_id}_hand_tcp_joint" type="fixed">
+      <origin xyz="${tcp_xyz}" rpy="${tcp_rpy}" />
+      <parent link="${arm_id}_hand" />
+      <child link="${arm_id}_hand_tcp" />
+    </joint>
+    <!-- <link name="${arm_id}_pump">
+      <visual>
+        <geometry>
+          <mesh filename="package://${description_pkg}/meshes/visual/pump_simplified.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.05" rpy="0 0 ${pi/2}"/>
+        <geometry>
+          <cylinder radius="${0.05+safety_distance}" length="0.12" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${arm_id}_finger_joint1" type="fixed">
+      <parent link="${arm_id}_hand" />
+      <child link="${arm_id}_pump" />
+      <origin xyz="0 0 0.0584" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+    </joint> -->
+  
+  </xacro:macro>
+</robot>

@@ -58,3 +58,30 @@ franka_state_controller:
     - $(arg arm_id)_joint5
     - $(arg arm_id)_joint6
     - $(arg arm_id)_joint7
+
+effort_group_effort_controller:
+  mode: EFFORT
+  type: effort_controllers/JointGroupEffortController
+  arm_id: panda
+  joints: [panda_joint1, panda_joint2, panda_joint3, panda_joint4, panda_joint5, panda_joint6, panda_joint7]  
+
+effort_group_position_controller:
+  mode: EFFORT
+  type: effort_controllers/JointGroupPositionController
+  arm_id: panda
+  joints: [panda_joint1, panda_joint2, panda_joint3, panda_joint4, panda_joint5, panda_joint6, panda_joint7] 
+  panda_joint1:
+    pid: {p: 50, i: 0.5, d: 30.0, i_clamp_min: -1.0, i_clamp_max: 1.0, antiwindup: true}
+  panda_joint2:
+    pid: {p: 50, i: 1.5, d: 30.0, i_clamp_min: -0.4, i_clamp_max: 0.4, antiwindup: true}
+  panda_joint3:
+    pid: {p: 50, i: 2.0, d: 30.0, i_clamp_min: -1.0, i_clamp_max: 1.0, antiwindup: true}
+  panda_joint4:
+    pid: {p: 50, i: 2.0, d: 30.0, i_clamp_min: -1.0, i_clamp_max: 1.0, antiwindup: true}
+  panda_joint5:
+    pid: {p: 50, i: 2.0, d: 10.0, i_clamp_min: -1.0, i_clamp_max: 1.0, antiwindup: true}
+  panda_joint6:
+    pid: {p: 30, i: 6.0, d: 10.0, i_clamp_min: -1.0, i_clamp_max: 1.0, antiwindup: true}
+  panda_joint7:
+    pid: {p: 20, i: 0.0, d: 5.0, i_clamp_min: -0.1, i_clamp_max: 0.1, antiwindup: true}
+  
