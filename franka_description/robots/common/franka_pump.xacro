@@ -29,6 +29,9 @@
           <cylinder radius="${0.05+safety_distance}" length="0.12" />
         </geometry>
       </collision>
+      <xacro:if value="${gazebo}">
+        <xacro:inertial_props name="pump" />
+      </xacro:if>
     </link>
     <!-- <joint name="${arm_id}_hand" type="fixed">
       <parent link="${arm_id}_link8" />

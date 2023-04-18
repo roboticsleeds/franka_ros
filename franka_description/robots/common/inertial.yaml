@@ -5,6 +5,11 @@
 # Penalty-Based Optimization
 # by: Claudio Gaz, Marco Cognetti, Alexander Oliva,
 # Paolo Robuffo Giordano, Alessandro de Luca
+# This file has also been modified by LEEDS, to add
+# inertial values for the pump (at the bottom).
+# The inertial values for the pump uses the weight (0.81)
+# from the specs of the pump, but the other inertial
+# parameters (com and the matrix) are copied from the hand.
 link0:
   origin:
     xyz: -0.041018 -0.00014 0.049974
@@ -135,3 +140,18 @@ leftfinger: &finger
     xz: 0
     yz: 0
 rightfinger: *finger
+
+pump:
+  origin:
+    xyz: -0.01 0 0.03
+    rpy: 0 0 0
+  mass: 0.81
+  inertia:
+    xx: 0.001
+    yy: 0.0025
+    zz: 0.0017
+    xy: 0
+    xz: 0
+    yz: 0
+
+
