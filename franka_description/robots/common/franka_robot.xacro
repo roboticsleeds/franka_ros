@@ -6,6 +6,8 @@
     <xacro:arg name="hand" default="false" />
     <!-- Should a franka_pump be mounted at the flange?" -->
     <xacro:arg name="pump" default="false" />
+    <!-- Should a franka_pump with a long rod be mounted at the flange?" -->
+    <xacro:arg name="long_pump" default="false" />
     <!-- Positional offset between $(arm_id)_hand -> $(arm_id)_hand_tcp [m]. Only used when hand:=true -->
     <xacro:arg name="tcp_xyz" default="0 0 0.1034" />
     <!-- Rotational offset between $(arm_id)_hand -> $(arm_id)_hand_tcp [rad]. Only used when hand:=true -->
@@ -14,6 +16,10 @@
     <xacro:arg name="pump_tcp_xyz" default="0 0 0.115" />
     <!-- Rotational offset between $(arm_id)_pump -> $(arm_id)_pump_tcp [rad]. Only used when pump:=true -->
     <xacro:arg name="pump_tcp_rpy" default="0 0 0" />
+    <!-- Positional offset between $(arm_id)_long_pump -> $(arm_id)_pump_tcp [m]. Only used when pump:=true -->
+    <xacro:arg name="long_pump_tcp_xyz" default="0 0 0.34" /> <!-- TOO - check thils tcp offset for long pump -->
+    <!-- Rotational offset between $(arm_id)_long_pump -> $(arm_id)_pump_tcp [rad]. Only used when pump:=true -->
+    <xacro:arg name="long_pump_tcp_rpy" default="0 0 0" />
     <!-- Is the robot being simulated in gazebo?" -->
     <xacro:arg name="gazebo" default="false" />
 
@@ -22,6 +28,7 @@
 
     <xacro:franka_arm arm_id="${arm_id}" safety_distance="0.03" gazebo="$(arg gazebo)" joint_limits="${joint_limits}"/>
 
+    <!-- Gripper attachment -->
     <xacro:if value="$(arg hand)">
       <xacro:include filename="$(find franka_description)/robots/common/franka_hand.xacro"/>
       <xacro:franka_hand
@@ -35,6 +42,7 @@
        />
     </xacro:if>
 
+    <!-- Normal pump attachment -->
     <xacro:if value="$(arg pump)">
       <xacro:include filename="$(find franka_description)/robots/common/franka_pump.xacro"/>
       <xacro:franka_pump
@@ -42,6 +50,20 @@
           rpy="0 0 ${-pi/4}"
           tcp_xyz="$(arg pump_tcp_xyz)"
           tcp_rpy="$(arg pump_tcp_rpy)"
+          connected_to="$(arg arm_id)_link8"
+          safety_distance="0.03"
+          gazebo="$(arg gazebo)"
+       />
+    </xacro:if>
+
+    <!-- Long pump attachment -->
+    <xacro:if value="$(arg long_pump)">
+      <xacro:include filename="$(find franka_description)/robots/common/franka_long_pump.xacro"/>
+      <xacro:franka_pump
+          arm_id="$(arg arm_id)"
+          rpy="0 0 ${-pi/4}"
+          tcp_xyz="$(arg long_pump_tcp_xyz)"
+          tcp_rpy="$(arg long_pump_tcp_rpy)"
           connected_to="$(arg arm_id)_link8"
           safety_distance="0.03"
           gazebo="$(arg gazebo)"

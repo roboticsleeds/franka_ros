@@ -10,12 +10,6 @@
       </joint>
     </xacro:unless>
 
-    <!-- <xacro:link_with_sc name="pump_simplified" gazebo="${gazebo}">
-      <self_collision_geometries>
-        <xacro:collision_capsule xyz="0 0 0.04" direction="y" radius="${0.04+safety_distance}" length="0.1" />
-        <xacro:collision_capsule xyz="0 0 0.10" direction="y" radius="${0.02+safety_distance}" length="0.1" />
-      </self_collision_geometries>
-    </xacro:link_with_sc> -->
     <link name="${arm_id}_pump" >
       <visual>
         <origin xyz="0 0 0" rpy="0 ${pi} 0"/>
@@ -33,12 +27,6 @@
         <xacro:inertial_props name="pump" />
       </xacro:if>
     </link>
-    <!-- <joint name="${arm_id}_hand" type="fixed">
-      <parent link="${arm_id}_link8" />
-      <child link="${arm_id}_hand" />
-      <origin xyz="0 0 0.0584" rpy="0 0 0" />
-      <axis xyz="0 1 0" />
-    </joint> -->
 
     <!-- Define the hand_tcp frame -->
     <link name="${arm_id}_pump_tcp" />
@@ -47,25 +35,6 @@
       <parent link="${arm_id}_pump" />
       <child link="${arm_id}_pump_tcp" />
     </joint>
-    <!-- <link name="${arm_id}_pump">
-      <visual>
-        <geometry>
-          <mesh filename="package://${description_pkg}/meshes/visual/pump_simplified.dae" />
-        </geometry>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0.05" rpy="0 0 ${pi/2}"/>
-        <geometry>
-          <cylinder radius="${0.05+safety_distance}" length="0.12" />
-        </geometry>
-      </collision>
-    </link>
-    <joint name="${arm_id}_finger_joint1" type="fixed">
-      <parent link="${arm_id}_hand" />
-      <child link="${arm_id}_pump" />
-      <origin xyz="0 0 0.0584" rpy="0 0 0" />
-      <axis xyz="0 1 0" />
-    </joint> -->
   
   </xacro:macro>
 </robot>
